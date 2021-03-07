@@ -1,25 +1,24 @@
 import mongoose from 'mongoose';
+import {
+  countries,
+  propertyPhotosPlaceholders,
+  propertyTypes,
+} from './propertyInfomationHelper';
+import {
+  bedTypes,
+  roomPhotoPlaceholders,
+  roomTypes,
+} from './roomInformationHelper';
 
 const { Schema } = mongoose;
 
-const propertyTypes = [
-  'Hotel',
-  'Hostel',
-  'Villa',
-  'Resort',
-  'Apartment',
-  'Bed and Breakfast',
-  'Other',
-];
-
-const countries = ['Australia', 'Vietnam'];
-
-const hotelSchema = new Schema({
+const propertySchema = new Schema({
   // General Information
   propertyType: { type: String, enum: propertyTypes, required: true },
   propertyName: { type: String, required: true },
   previousName: String,
   particularHotelChainName: String,
+  location: { type: String, required: true },
   streetAddress: { type: String, required: true },
   postalCode: { type: Number, required: true },
   country: { type: String, enum: countries, required: true },
@@ -70,14 +69,19 @@ const hotelSchema = new Schema({
 
   // Property Facilities
   propertyFacilities: {
-    common: [String],
-    accessibility: [String],
-    business: [String],
-    connectivity: [String],
-    facilities: [String],
-    foodAndDrinks: [String],
-    insideRoom: [String],
-    nearbyAmenities: [String],
+    common: { type: [String] },
+    accessibility: { type: [String] },
+    business: { type: [String] },
+    connectivity: { type: [String] },
+    facilities: { type: [String] },
+    foodAndDrinks: { type: [String] },
+    insideRoom: { type: [String] },
+    nearbyAmenities: { type: [String] },
+    service: { type: [String] },
+    sportsAndRecreation: { type: [String] },
+    thingsToDo: { type: [String] },
+    transportation: { type: [String] },
+    travellingWithOthers: { type: [String] },
   },
 
   // Rooms
@@ -87,8 +91,8 @@ const hotelSchema = new Schema({
         roomName: { type: String, required: true },
         roomSpecification: {
           type: {
-            roomType: { type: String, required: true },
-            bedType: { type: String, required: true },
+            roomType: { type: String, enum: roomTypes, required: true },
+            bedType: { type: String, enum: bedTypes, required: true },
             maximumOccupancy: { type: Number, required: true },
           },
         },
@@ -96,17 +100,45 @@ const hotelSchema = new Schema({
         isBreakfastIncluded: { type: Boolean, required: true },
         numberOfRoomsForThisType: { type: Number, required: true },
         roomFacilities: {
-          roomAndLaundry: [String],
+          roomAndLaundry: { type: [String] },
+          foodAndDrinks: { type: [String] },
+          entertainment: { type: [String] },
+          roomConfigurationAndAccess: { type: [String] },
+          bathroomAndPool: { type: [String] },
         },
-        roomPhotos: { type: [String], required: true },
+        roomPhotos: {
+          type: [
+            {
+              placeholder: {
+                type: String,
+                enum: roomPhotoPlaceholders,
+                required: true,
+              },
+            },
+            { photos: { type: String, required: true } },
+          ],
+          required: true,
+        },
       },
     ],
     required: true,
   },
 
   // Property Photos
-  propertyPhotos: { type: [String], required: true },
+  propertyPhotos: {
+    type: [
+      {
+        placeholder: {
+          type: String,
+          enum: propertyPhotosPlaceholders,
+          required: true,
+        },
+      },
+      { photos: { type: String, required: true } },
+    ],
+    required: true,
+  },
 });
 
-const Hotel = mongoose.model('hotel', hotelSchema);
-export default Hotel;
+const Property = mongoose.model('propertie', propertySchema);
+export default Property;
