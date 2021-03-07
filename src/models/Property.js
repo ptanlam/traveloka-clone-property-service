@@ -3,18 +3,24 @@ import {
   countries,
   propertyPhotosPlaceholders,
   propertyTypes,
-} from './propertyInfomationHelper';
+  propertyCategories,
+} from '../helpers/models/propertyInfomationHelper';
 import {
   bedTypes,
   roomPhotoPlaceholders,
   roomTypes,
-} from './roomInformationHelper';
+} from '../helpers/models/roomInformationHelper';
 
 const { Schema } = mongoose;
 
 const propertySchema = new Schema(
   {
     // General Information
+    propertyCategory: {
+      type: String,
+      enum: propertyCategories,
+      required: true,
+    },
     propertyType: { type: String, enum: propertyTypes, required: true },
     propertyName: { type: String, required: true },
     previousName: String,
@@ -96,6 +102,7 @@ const propertySchema = new Schema(
               bedType: { type: String, enum: bedTypes, required: true },
               maximumOccupancy: { type: Number, required: true },
             },
+            required: true,
           },
           roomSize: { width: Number, length: Number },
           isBreakfastIncluded: { type: Boolean, required: true },
@@ -115,8 +122,16 @@ const propertySchema = new Schema(
                   enum: roomPhotoPlaceholders,
                   required: true,
                 },
+                photos: {
+                  type: [
+                    {
+                      location: { type: String, required: true },
+                      key: { type: String, required: true },
+                    },
+                  ],
+                  required: true,
+                },
               },
-              { photos: { type: String, required: true } },
             ],
             required: true,
           },
@@ -134,8 +149,16 @@ const propertySchema = new Schema(
             enum: propertyPhotosPlaceholders,
             required: true,
           },
+          photos: {
+            type: [
+              {
+                location: { type: String, required: true },
+                key: { type: String, required: true },
+              },
+            ],
+            required: true,
+          },
         },
-        { photos: { type: String, required: true } },
       ],
       required: true,
     },

@@ -12,9 +12,9 @@ AWS.config.update({
   region: process.env.AWS_REGION,
 });
 
-const s3 = new AWS.S3();
+export const s3 = new AWS.S3();
 
-const upload = multer({
+export const upload = multer({
   storage: multerS3({
     fileFilter: multerConfigs.fileFilter,
     s3,
@@ -28,5 +28,3 @@ const upload = multer({
     },
   }),
 });
-
-export default upload;

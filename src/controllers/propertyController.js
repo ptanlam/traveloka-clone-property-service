@@ -1,6 +1,6 @@
 import Property from '../models/Property';
-import getPropertiesByFilterConditions from '../helpers/getPropertiesByFilterConditions';
-import populateAllPropertyInformation from '../helpers/populateAllPropertyInformation';
+import getPropertiesByFilterConditions from '../helpers/controllers/getPropertiesByFilterConditions';
+import populateAllPropertyInformation from '../helpers/controllers/populateAllPropertyInformation';
 
 // [GET] /api/v1/properties/:_id
 async function getProperties(req, res) {
@@ -19,12 +19,6 @@ async function getProperties(req, res) {
 }
 
 // [POST] /api/v1/properties
-async function postPhotos(req, res) {
-  const photoUrls = req.files.map((photo) => photo.location);
-  res.status(201).json({ photoUrls });
-}
-
-// [POST] /api/v1/properties
 async function postProperty(req, res) {
   try {
     const { rooms: roomInformation, ...generalInformation } = req.body;
@@ -36,10 +30,15 @@ async function postProperty(req, res) {
 
     const property = new Property({ ...propertyInformation, rooms });
     await property.save();
-    return res.status(201).send('Registered accommodation successfully!');
+    return res
+      .status(201)
+      .send(`Registered accommodation ${property.propertyName} successfully!`);
   } catch (err) {
     return res.status(500).send(`Some errors occurred: ${err.message}`);
   }
 }
 
-export default { getProperties, postPhotos, postProperty };
+export default {
+  getProperties,
+  postProperty,
+};

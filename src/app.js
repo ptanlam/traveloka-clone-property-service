@@ -2,7 +2,7 @@ import express from 'express';
 import routes from './routes';
 import connectToDatabase from './configs/database';
 
-require('dotenv').config('./env');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;

@@ -1,4 +1,4 @@
-import Property from '../models/Property';
+import Property from '../../models/Property';
 
 export default async function getPropertiesByFilterCondition(conditions) {
   // For pagination

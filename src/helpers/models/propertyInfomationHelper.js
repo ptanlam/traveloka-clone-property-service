@@ -1,3 +1,10 @@
+export const propertyCategories = [
+  'Hotel',
+  'House',
+  'Apartment',
+  'Unique Accommodation',
+];
+
 export const propertyTypes = [
   'Hotel',
   'Hostel',

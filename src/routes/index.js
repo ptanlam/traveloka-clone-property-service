@@ -1,16 +1,10 @@
 import express from 'express';
-import propertyController from '../controllers/propertyController';
-import upload from '../configs/multer-aws-s3';
+import propertyRoutes from './property';
+import registrationRoutes from './registration';
 
 const router = express.Router();
 
-router
-  .route('/properties/photos')
-  .post(upload.any(), propertyController.postPhotos);
-
-router
-  .route('/properties/:_id?')
-  .get(propertyController.getProperties)
-  .post(propertyController.postProperty);
+router.use('/registration', registrationRoutes);
+router.use('/properties', propertyRoutes);
 
 export default router;
