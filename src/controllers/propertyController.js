@@ -20,7 +20,6 @@ async function getProperties(req, res) {
 async function postProperty(req, res) {
   try {
     const property = new Property({ ...req.body });
-    await property.save();
     return res
       .status(201)
       .send(`Registered accommodation ${property.propertyName} successfully!`);

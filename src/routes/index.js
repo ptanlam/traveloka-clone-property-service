@@ -1,13 +1,8 @@
 import express from 'express';
-import multer from 'multer';
 import propertyController from '../controllers/propertyController';
-import multerConfigs from '../configs/multer';
+import upload from '../configs/multer-aws-s3';
 
 const router = express.Router();
-const upload = multer({
-  storage: multerConfigs.storage,
-  fileFilter: multerConfigs.fileFilter,
-});
 
 router
   .route('/properties/:_id?')
