@@ -13,7 +13,8 @@ async function getRegistrationPropertyById(req, res, next) {
 
     return res.status(200).json({ registration });
   } catch (error) {
-    return next(error)
+    return next(error);
+  }
 }
 
 // [POST] /api/v1/registration
