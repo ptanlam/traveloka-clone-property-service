@@ -3,7 +3,7 @@ import getPropertiesByFilterConditions from '../helpers/controllers/getPropertie
 import populateAllPropertyInformation from '../helpers/controllers/populateAllPropertyInformation';
 
 // [GET] /api/v1/properties/:_id
-async function getProperties(req, res) {
+async function getProperties(req, res, next) {
   try {
     const { _id } = req.params;
     if (_id) {
@@ -13,13 +13,13 @@ async function getProperties(req, res) {
 
     const properties = await getPropertiesByFilterConditions(req.query);
     return res.status(200).json({ properties });
-  } catch (err) {
-    return res.status(500).send(`Some errors occurred: ${err.message}`);
+  } catch (error) {
+    return next(error);
   }
 }
 
 // [POST] /api/v1/properties
-async function postProperty(req, res) {
+async function postProperty(req, res, next) {
   try {
     const { rooms: roomInformation, ...generalInformation } = req.body;
 
@@ -33,8 +33,8 @@ async function postProperty(req, res) {
     return res
       .status(201)
       .send(`Registered accommodation ${property.propertyName} successfully!`);
-  } catch (err) {
-    return res.status(500).send(`Some errors occurred: ${err.message}`);
+  } catch (error) {
+    return next(error);
   }
 }
 
