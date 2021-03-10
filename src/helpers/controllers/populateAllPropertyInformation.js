@@ -1,4 +1,6 @@
-export default function populateAllPropertyInformation(data) {
+import Room from '../../models/Room';
+
+export default async function populateAllPropertyInformation(data) {
   let {
     numberOfRooms,
     distanceToCityCenter,
@@ -16,12 +18,17 @@ export default function populateAllPropertyInformation(data) {
   checkInTime = parseInt(data.checkInTime, 10);
   checkOutTime = parseInt(data.checkOutTime, 10);
 
-  return {
+  const room = new Room({
     numberOfRooms,
     distanceToCityCenter,
     numberOfFloors,
     checkInTime,
     checkOutTime,
     ...restData,
-  };
+  });
+
+  await room.save();
+
+  // eslint-disable-next-line no-underscore-dangle
+  return room._id();
 }

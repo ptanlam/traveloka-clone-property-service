@@ -1,8 +1,7 @@
 import express from 'express';
 import routes from './routes';
 import connectToDatabase from './configs/database';
-
-require('dotenv').config();
+import { clientErrorHandler, logErrors } from './errors/handler';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -14,9 +13,8 @@ app.use(express.json());
 
 app.use('/api/v1', routes);
 
-app.use((error, req, res, next) => {
-  res.status(500).json({ error: error.toString() });
-});
+app.use(logErrors);
+app.use(clientErrorHandler);
 
 // eslint-disable-next-line no-console
 app.listen(PORT, () => console.log(`Property service is running in ${PORT}`));
